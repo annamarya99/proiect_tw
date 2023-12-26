@@ -9,6 +9,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import AdaugaProiect from './components/AdaugaProiect';
+import ViewProjects from './components/ViewProjects';
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
       <h1>Aplicație React</h1>
       {/* <SignUp /> 
       <LogIn /> */}
-      <AdaugaProiect />
+      {/* <AdaugaProiect /> */}
+      <ViewProjects />
     </div>
     // <>
     //         {/* This is the alias of BrowserRouter i.e. Router */}

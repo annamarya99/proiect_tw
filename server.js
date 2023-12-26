@@ -98,6 +98,29 @@ app.post('/api/proiecte', async (req, res) => {
   }
 });
 
+// Definirea unei rute pentru a obține toate proiectele
+app.get('/api/proiecte', async (req, res) => {
+  try {
+    const projects = await Project.findAll({
+      include: [
+        {
+          model: User,
+          as: 'EchipaProiectului',
+          through: 'ProjectUser',
+        },
+        {
+          model: User,
+          as: 'EchipaTestare',
+          through: 'ProiectEchipaTestare',
+        },
+      ],
+    });
+    res.json(projects);
+  } catch (error) {
+    console.error('Eroare la obținerea proiectelor:', error);
+    res.status(500).json({ error: 'Eroare la obținerea proiectelor.' });
+  }
+});
 
 // Backend routes
 app.get('/api', (req, res) => {
