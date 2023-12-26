@@ -17,6 +17,7 @@ const sequelize = new Sequelize({
 
 // Definire model User
 const User = require('./models/user');
+const Project = require('./models/project');
 
 
 // Middleware pentru a permite parsarea JSON în cereri POST
@@ -30,7 +31,6 @@ app.post('/api/register', async (req, res) => {
 
   try {
     const newUser = await User.create({ username, email, password });
-    console.log(username);
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Eroare la înregistrarea utilizatorului:', error);
@@ -57,6 +57,46 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Endpoint pentru a obține lista de utilizatori
+app.get('/api/utilizatori', async (req, res) => {
+  try {
+    const utilizatori = await User.findAll();
+    res.json(utilizatori);
+  } catch (error) {
+    console.error('Eroare la obținerea listei de utilizatori:', error);
+    res.status(500).json({ error: 'Eroare la obținerea listei de utilizatori' });
+  }
+});
+
+
+
+// Endpoint pentru a adăuga un proiect
+app.post('/api/proiecte', async (req, res) => {
+  try {
+    const { numeProiect, repository, echipaProiectului, echipaTestare } = req.body;
+
+    // Creează proiectul în baza de date
+    const proiect = await Project.create({
+      numeProiect,
+      repository,
+      echipaProiectului,
+      echipaTestare
+
+    });
+
+    // Adaugă membrii în echipele respective (echipaProiectului și echipaTestare)
+    // Poți utiliza asocierile Sequelize aici pentru a gestiona legăturile cu utilizatorii
+
+    // Exemplu:
+      await proiect.setEchipaProiectului(echipaProiectului);
+     await proiect.setEchipaTestare(echipaTestare);
+
+    res.status(201).json({ proiect });
+  } catch (error) {
+    console.error('Eroare la adăugarea proiectului(4):', error);
+    res.status(500).json({ error: 'Eroare la adăugarea proiectului(6)' });
+  }
+});
 
 
 // Backend routes
