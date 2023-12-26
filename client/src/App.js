@@ -18,13 +18,13 @@ const App = () => {
   return (
     <div>
       <h1>Aplicație React</h1>
-      <SignUp /> 
-      <LogIn />
+      {/* <SignUp /> 
+      <LogIn /> */}
       {/* <AdaugaProiect /> */}
       {/* <ViewProjects /> */}
       {/* <AddBug /> */}
       {/* <ViewBugs /> */}
-      {/* <Dashboard /> */}
+      <Dashboard />
     </div>
     // <>
     //         {/* This is the alias of BrowserRouter i.e. Router */}
