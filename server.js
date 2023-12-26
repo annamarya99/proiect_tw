@@ -4,6 +4,7 @@ const cors = require('cors');  // Importarea modulului CORS. CORS este o politic
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -18,10 +19,13 @@ const sequelize = new Sequelize({
 // Definire model User
 const User = require('./models/user');
 const Project = require('./models/project');
+const Bug = require('./models/Bug')
+
 
 
 // Middleware pentru a permite parsarea JSON în cereri POST
 app.use(express.json());
+
 
 // Ruta de înregistrare a utilizatorilor
 app.post('/api/register', async (req, res) => {
@@ -121,6 +125,52 @@ app.get('/api/proiecte', async (req, res) => {
     res.status(500).json({ error: 'Eroare la obținerea proiectelor.' });
   }
 });
+
+// Rută pentru înregistrarea unui bug
+app.post('/api/bugs', async (req, res) => {
+  try {
+    // Despachiați datele primite de la client
+    const { numeBug, severitate, prioritate, descriere, linkCommit, ProjectId } = req.body;
+
+    // Verificați dacă proiectul există înainte de a adăuga bug-ul
+    const project = await Project.findByPk(ProjectId);
+    if (!project) {
+      return res.status(404).json({ error: 'Proiectul nu există.' });
+    }
+
+    // Creați bug-ul în baza de date
+    const newBug = await Bug.create({
+      numeBug,
+      severitate,
+      prioritate,
+      descriere,
+      linkCommit,
+      ProjectId,
+    });
+
+    res.status(201).json(newBug);
+  } catch (error) {
+    console.error('Eroare la înregistrarea bug-ului:', error);
+    res.status(500).json({ error: 'Eroare la înregistrarea bug-ului.' });
+  }
+});
+
+// Exemplu de rută pentru obținerea bug-urilor
+app.get('/api/bugs', async (req, res) => {
+  try {
+    // Logică pentru a obține bug-urile din baza de date
+    // Folosește Sequelize sau altceva pentru a accesa baza de date
+    const bugs = await Bug.findAll({
+      include: [{ model: Project }],
+    });
+
+    res.json(bugs);
+  } catch (error) {
+    console.error('Eroare la obținerea bug-urilor:', error);
+    res.status(500).json({ error: 'Eroare la obținerea bug-urilor' });
+  }
+});
+
 
 // Backend routes
 app.get('/api', (req, res) => {

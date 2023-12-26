@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize');
-const User = require('./user'); // Asigură-te că ai importat modelul User
+const User = require('./user'); 
+
 
 const Project = sequelize.define('Project', {
   numeProiect: {
@@ -24,5 +25,8 @@ User.belongsToMany(Project, { through: 'ProjectUser', as: 'ProiecteUtilizator' }
 // Relație "mult-la-mult" între Proiect și User pentru echipa de testare
 Project.belongsToMany(User, { through: 'ProiectEchipaTestare', as: 'EchipaTestare' });
 User.belongsToMany(Project, { through: 'ProiectEchipaTestare', as: 'ProiecteTestareUtilizator' });
+
+
+
 
 module.exports = Project;

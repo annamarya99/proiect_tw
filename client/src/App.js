@@ -10,15 +10,21 @@ import {
 } from "react-router-dom";
 import AdaugaProiect from './components/AdaugaProiect';
 import ViewProjects from './components/ViewProjects';
+import AddBug from './components/AddBug';
+import ViewBugs from './components/ViewBugs';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
   return (
     <div>
       <h1>Aplicație React</h1>
-      {/* <SignUp /> 
-      <LogIn /> */}
+      <SignUp /> 
+      <LogIn />
       {/* <AdaugaProiect /> */}
-      <ViewProjects />
+      {/* <ViewProjects /> */}
+      {/* <AddBug /> */}
+      {/* <ViewBugs /> */}
+      {/* <Dashboard /> */}
     </div>
     // <>
     //         {/* This is the alias of BrowserRouter i.e. Router */}
