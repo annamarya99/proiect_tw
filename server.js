@@ -50,8 +50,9 @@ app.post('/api/login', async (req, res) => {
     // Folosește Sequelize pentru a căuta un utilizator cu email-ul dat
     const user = await User.findOne({ where: { email } });
 
+
     if (user && user.password === password) {
-      res.status(200).json({ success: true, message: 'Autentificare reușită!', userType: user.tipUtilizator  });
+      res.status(200).json({ success: true, message: 'Autentificare reușită!', userType: user.tipUtilizator, userId: user.id  });
     } else {
       res.status(401).json({ success: false, message: 'Autentificare eșuată. Verifică email-ul și parola.' });
     }
@@ -76,6 +77,7 @@ app.get('/api/utilizatori', async (req, res) => {
 app.get(`/api/proiecteUtilizator/:id`, async (req, res) => {
   try {
     const userId = req.params.id;
+
     const { QueryTypes } = require('sequelize');
     const userProjects = await sequelize.query(
       `SELECT 

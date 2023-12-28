@@ -12,7 +12,8 @@ const AddBug = () => {
   });
 
   useEffect(() => {
-    const userId = 8; // You can get the user ID dynamically
+    //const userId = 8; // You can get the user ID dynamically
+    const userId=window.sessionStorage.getItem("userId");
     const apiUrl = `http://localhost:5000/api/userProjects/${userId}`;
   
     const getProjects = async () => {
@@ -34,14 +35,17 @@ const AddBug = () => {
       ...prevData,
       [name]: value,
     }));
+    //console.log([name]+':'+value);
   };
 
   const handleSelectChange = (e) => {
-    const { value } = e.target;
+    const {value } = e.target;
+    const projectId = parseInt(value, 10);
     setBugData((prevData) => ({
       ...prevData,
-      ProjectId: value,
+      ['ProjectId']: value,
     }));
+    //console.log('ProjectId:'+projectId);
   };
 
   const handleSubmit = async (e) => {
@@ -98,7 +102,7 @@ const AddBug = () => {
         <br />
         <label>
           Proiect:
-          <select name="ProjectId" value={bugData.ProjectId} onChange={handleSelectChange}>
+          <select name="ProjectId" value={bugData.ProjectId || ''} onChange={handleSelectChange}>
             <option value="" disabled>
               Alege un proiect
             </option>

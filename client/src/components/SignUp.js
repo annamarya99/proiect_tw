@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import{Link} from 'react-router-dom'
+import{Link,useNavigate} from 'react-router-dom'
 
 
 const SignUp = () => {
@@ -8,7 +8,10 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [tipUtilizator, setTipUtilizator] = useState('MP'); // Implicit, începe cu valoarea 'MP'
 
+  const navigate=useNavigate();
+
   const handleSignUp = async () => {
+    
     try {
       const response = await fetch('http://localhost:5000/api/register', {
         method: 'POST',
@@ -22,6 +25,7 @@ const SignUp = () => {
         console.log('Utilizator înregistrat cu succes!');
         console.log(response);
 
+        navigate('/login');
       } else {
         const errorMessage = await response.text();
         console.error(`Eroare la înregistrarea utilizatorului: ${errorMessage}`);
@@ -49,7 +53,7 @@ const SignUp = () => {
         <option value="TST">Tester</option>
       </select>
       <br />
-      <Link to="/Login"><button onClick={handleSignUp}>Înregistrare</button></Link>
+      <button onClick={handleSignUp}>Înregistrare</button>
       {/* <Link to="/SignUp">Creează cont</Link>
       <br /> */}
     </div>

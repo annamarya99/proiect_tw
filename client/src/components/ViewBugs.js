@@ -4,7 +4,8 @@ const ViewBugs = () => {
   const [bugs, setBugs] = useState([]);
 
   useEffect(() => {
-    const userId = 5; //!!HARDCODAT!!
+    //const userId = 5; //!!HARDCODAT!!
+    const userId=window.sessionStorage.getItem("userId");
     const apiUrl = `http://localhost:5000/api/bugs/${userId}`;
 
     const fetchBugs = async () => {

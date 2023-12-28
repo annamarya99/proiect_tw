@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./sequelize'); // Importarea instanței Sequelize
 
+
+
 const User = sequelize.define('User', {
   // Definirea câmpurilor din tabel
   username: {
@@ -20,10 +22,17 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('MP', 'TST'),
     allowNull: true,
   },
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  }
  
 
 }, {
   timestamps: true, // Adaugă automat coloanele createdAt și updatedAt
 });
+
+console.log(User.rawAttributes);
 
 module.exports = User;

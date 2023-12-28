@@ -16,7 +16,7 @@ function getUserPrivillege() {
       <h2>Dashboard</h2>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {/* <Link to=""> */}
-        {getUserPrivillege() == 'TST'? 
+        {getUserPrivillege() === 'MP'? 
 
         <div style={iconContainerStyle}>
           <MdOutlinePlaylistAdd size={100} />
@@ -27,7 +27,7 @@ function getUserPrivillege() {
         <div style={iconContainerStyle}>
           <IoMdList size={100} />
           {/* DE FACUT LA RUTE : in functie de userPrivillege : MP/TST se deschide ViewProjectMP sau ViewProjectTST */}
-          {getUserPrivillege() == 'TST'? 
+          {getUserPrivillege() === 'TST'? 
           <Link to='/viewprojectsTST'><p style={titleStyle}>Vezi proiectele</p></Link>: <Link to='/viewprojectsMP'><p style={titleStyle}>Vezi proiectele</p></Link>}
         </div>
         <div style={iconContainerStyle}>

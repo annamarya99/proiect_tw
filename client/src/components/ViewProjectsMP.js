@@ -5,7 +5,8 @@ const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const userId = 8; //!!HARDCODAT!!
+    // const userId = 8; //!!HARDCODAT!!
+    const userId=window.sessionStorage.getItem("userId");
 
     fetch(`http://localhost:5000/api/proiecteUtilizator/${userId}`)
       .then(response => response.json())
