@@ -30,11 +30,11 @@ app.use(express.json());
 // Ruta de înregistrare a utilizatorilor
 app.post('/api/register', async (req, res) => {
   
-  const { username, email, password } = req.body;
+  const { username, email, password, tipUtilizator  } = req.body;
   console.log('arata aci ceva34');
 
   try {
-    const newUser = await User.create({ username, email, password });
+    const newUser = await User.create({ username, email, password, tipUtilizator });
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Eroare la înregistrarea utilizatorului:', error);
@@ -51,7 +51,7 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ where: { email } });
 
     if (user && user.password === password) {
-      res.status(200).json({ success: true, message: 'Autentificare reușită!' });
+      res.status(200).json({ success: true, message: 'Autentificare reușită!', userType: user.tipUtilizator  });
     } else {
       res.status(401).json({ success: false, message: 'Autentificare eșuată. Verifică email-ul și parola.' });
     }
@@ -61,7 +61,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Endpoint pentru a obține lista de utilizatori
+// Endpoint pentru a obține toata lista de utilizatori
 app.get('/api/utilizatori', async (req, res) => {
   try {
     const utilizatori = await User.findAll();
@@ -71,6 +71,90 @@ app.get('/api/utilizatori', async (req, res) => {
     res.status(500).json({ error: 'Eroare la obținerea listei de utilizatori' });
   }
 });
+
+// Endpoint pentru a obține lista de proiecte in functe de id-ul userului logat - pt vizualizare ca MP
+app.get(`/api/proiecteUtilizator/:id`, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { QueryTypes } = require('sequelize');
+    const userProjects = await sequelize.query(
+      `SELECT 
+        p.*, 
+        pu.UserId AS MembruEchipaUserId, 
+        u1.username AS MembruEchipaUsername,
+        pet.UserId AS TesterProiectUserId,
+        u2.username AS TesterProiectUsername
+      FROM Projects p
+      LEFT JOIN ProjectUser pu ON p.id = pu.ProjectId
+      LEFT JOIN Users u1 ON pu.UserId = u1.id
+      LEFT JOIN ProiectEchipaTestare pet ON p.id = pet.ProjectId
+      LEFT JOIN Users u2 ON pet.UserId = u2.id
+      WHERE p.id IN (SELECT ProjectId FROM ProjectUser WHERE UserId = ${userId})`,
+      { type: QueryTypes.SELECT }
+    );
+
+    res.json(userProjects);
+  } catch (error) {
+    console.error('Eroare la obținerea listei de proiecte:', error);
+    res.status(500).json({ error: 'Eroare la obținerea listei de proiecte' });
+  }
+});
+
+// Endpoint pentru a obține lista de proiecte in functe de id-ul userului logat - pt selectie cand adaugam un bug
+app.get('/api/userProjects/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { QueryTypes } = require('sequelize');
+
+    const userProjects = await sequelize.query(
+      `SELECT p.* FROM Projects p
+      LEFT JOIN ProjectUser pu ON p.id = pu.ProjectId
+      LEFT JOIN ProiectEchipaTestare pet ON p.id = pet.ProjectId
+      WHERE p.id IN (SELECT ProjectId FROM ProjectUser WHERE UserId = ${userId})
+        OR p.id IN (SELECT ProjectId FROM ProiectEchipaTestare WHERE UserId = ${userId})`,
+      { type: QueryTypes.SELECT }
+    );
+
+    res.json(userProjects);
+  } catch (error) {
+    console.error('Error getting user projects:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+// Endpoint pentru a obține lista de buguri in functe de id-ul userului logat
+app.get('/api/bugs/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { QueryTypes } = require('sequelize');
+
+    const bugs = await sequelize.query(
+      `SELECT b.*, p.numeProiect
+       FROM Bugs b
+       INNER JOIN Projects p ON b.ProjectId = p.id
+       WHERE b.ProjectId IN (
+         SELECT pu.ProjectId FROM ProjectUser pu WHERE pu.UserId = ${userId}
+         UNION
+         SELECT pet.ProjectId FROM ProiectEchipaTestare pet WHERE pet.UserId = ${userId}
+       )`,
+      { type: QueryTypes.SELECT }
+    );
+
+    res.json(bugs);
+  } catch (error) {
+    console.error('Eroare la obținerea bug-urilor:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
 
 
 
@@ -155,7 +239,7 @@ app.post('/api/bugs', async (req, res) => {
   }
 });
 
-// Exemplu de rută pentru obținerea bug-urilor
+// Exemplu de rută pentru obținerea tuturor bug-urilor
 app.get('/api/bugs', async (req, res) => {
   try {
     // Logică pentru a obține bug-urile din baza de date

@@ -4,13 +4,16 @@ const ViewBugs = () => {
   const [bugs, setBugs] = useState([]);
 
   useEffect(() => {
+    const userId = 5; //!!HARDCODAT!!
+    const apiUrl = `http://localhost:5000/api/bugs/${userId}`;
+
     const fetchBugs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/bugs'); // Actualizează URL-ul conform configurației tale
+        const response = await fetch(apiUrl);
         const bugsData = await response.json();
         setBugs(bugsData);
       } catch (error) {
-        console.error('Eroare la încărcarea bug-urilor:', error);
+        console.error('Error loading bugs:', error);
       }
     };
 

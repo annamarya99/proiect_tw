@@ -23,6 +23,8 @@ const LogIn = () => {
           const data = await response.json();
           console.log(data.message);
           // Poți face ceva după autentificare reușită, cum ar fi redirecționarea către o altă pagină
+          window.sessionStorage.setItem("userPrivillege", data.userType);
+          window.sessionStorage.setItem("userId", data.id);
         } else {
           const errorMessage = await response.text();
           console.error(`Autentificare eșuată: ${errorMessage}`);
@@ -46,6 +48,7 @@ const LogIn = () => {
       <button onClick={handleLogIn}>Log In</button>
       {/* <Link to="/SignUp">Creează cont</Link>
       <br /> */}
+      
       
     </div>
   );

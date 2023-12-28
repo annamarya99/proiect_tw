@@ -1,11 +1,10 @@
-// client/src/components/SignUp.js
-import React, { useState } from 'react';
-
+import {useState} from 'react'
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [tipUtilizator, setTipUtilizator] = useState('MP'); // Implicit, începe cu valoarea 'MP'
 
   const handleSignUp = async () => {
     try {
@@ -14,16 +13,15 @@ const SignUp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, tipUtilizator }),
       });
-
-
 
       if (response.ok) {
         console.log('Utilizator înregistrat cu succes!');
+        console.log(response);
       } else {
-        const errorMessage = await response.text(); // Obține mesajul de eroare din corpul răspunsului
-        console.error(`Eroare la înregistrarea utilizatorului(eroare mea): ${errorMessage}`);
+        const errorMessage = await response.text();
+        console.error(`Eroare la înregistrarea utilizatorului: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Eroare la înregistrarea utilizatorului:', error);
@@ -42,10 +40,14 @@ const SignUp = () => {
       <label>Parolă:</label>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
+      <label>Tip Utilizator:</label>
+      <select value={tipUtilizator} onChange={(e) => setTipUtilizator(e.target.value)}>
+        <option value="MP">Membru de Proiect</option>
+        <option value="TST">Tester</option>
+      </select>
+      <br />
       <button onClick={handleSignUp}>Înregistrare</button>
-      
     </div>
   );
 };
-
 export default SignUp;

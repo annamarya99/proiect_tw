@@ -62,7 +62,7 @@ const AdaugaProiect = () => {
         Echipa Proiectului:
         <select value={echipaProiectului} onChange={(e) => setEchipaProiectului(e.target.value)}>
           <option value="">Selectați echipa</option>
-          {utilizatori.map((utilizator) => (
+          {utilizatori.filter((user) => user.tipUtilizator === 'MP').map((utilizator) => (
             <option key={utilizator.id} value={utilizator.id}>
               {utilizator.username}
             </option>
@@ -74,7 +74,7 @@ const AdaugaProiect = () => {
         Echipa Testare:
         <select value={echipaTestare} onChange={(e) => setEchipaTestare(e.target.value)}>
           <option value="">Selectați echipa</option>
-          {utilizatori.map((utilizator) => (
+          {utilizatori.filter((user) => user.tipUtilizator === 'TST').map((utilizator) => (
             <option key={utilizator.id} value={utilizator.id}>
               {utilizator.username}
             </option>

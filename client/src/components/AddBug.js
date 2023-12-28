@@ -12,16 +12,19 @@ const AddBug = () => {
   });
 
   useEffect(() => {
+    const userId = 8; // You can get the user ID dynamically
+    const apiUrl = `http://localhost:5000/api/userProjects/${userId}`;
+  
     const getProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/proiecte');
+        const response = await fetch(apiUrl);
         const data = await response.json();
         setProjects(data);
       } catch (error) {
-        console.error('Eroare la încărcarea proiectelor:', error);
+        console.error('Error loading projects:', error);
       }
     };
-
+  
     getProjects();
   }, []);
 

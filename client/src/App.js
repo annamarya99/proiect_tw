@@ -9,10 +9,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import AdaugaProiect from './components/AdaugaProiect';
-import ViewProjects from './components/ViewProjects';
+import ViewProjectsMP from './components/ViewProjectsMP';
 import AddBug from './components/AddBug';
 import ViewBugs from './components/ViewBugs';
 import Dashboard from './components/Dashboard';
+import ViewProjectsTST from './components/ViewProjectsTST';
 
 const App = () => {
   return (
@@ -21,37 +22,13 @@ const App = () => {
       {/* <SignUp /> 
       <LogIn /> */}
       {/* <AdaugaProiect /> */}
-      {/* <ViewProjects /> */}
-      {/* <AddBug /> */}
+      {/* <ViewProjectsMP /> */}
+      {/* < ViewProjectsTST /> */}
+      <AddBug />
       {/* <ViewBugs /> */}
-      <Dashboard />
+      {/* <Dashboard /> */}
     </div>
-    // <>
-    //         {/* This is the alias of BrowserRouter i.e. Router */}
-    //         <Router>
-    //             <Routes>
-    //                 {/* This route is for home component 
-    //       with exact path "/", in component props 
-    //       we passes the imported component*/}
-    //                 <Route
-    //                     exact
-    //                     path="/"
-    //                     element={<LogIn />}
-    //                 />
- 
-    //                 {/* This route is for about component 
-    //       with exact path "/about", in component 
-    //       props we passes the imported component*/}
-    //                 <Route
-    //                     path="/about"
-    //                     element={<SignUp />}
-    //                 />
- 
-                    
-    //             </Routes>
-    //         </Router>
-    //     </>
-    
+  
 
   );
 };

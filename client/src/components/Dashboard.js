@@ -6,18 +6,27 @@ import { IoMdList } from "react-icons/io";
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
+
+function getUserPrivillege() {
+ return window.sessionStorage.getItem("userPrivillege");
+}
+
   return (
     <div>
       <h2>Dashboard</h2>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {/* <Link to=""> */}
+        {getUserPrivillege() == 'TST'? 
+
         <div style={iconContainerStyle}>
           <MdOutlinePlaylistAdd size={100} />
           <p style={titleStyle}>Adaugă Proiect</p>
-        </div>
+        </div> : null }
+        
         {/* </Link> */}
         <div style={iconContainerStyle}>
           <IoMdList size={100} />
+          {/* DE FACUT LA RUTE : in functie de userPrivillege : MP/TST se deschide ViewProjectMP sau ViewProjectTST */}
           <p style={titleStyle}>Vezi proiectele</p>
         </div>
         <div style={iconContainerStyle}>

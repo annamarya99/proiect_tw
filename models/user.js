@@ -16,6 +16,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  tipUtilizator: {
+    type: DataTypes.ENUM('MP', 'TST'),
+    allowNull: true,
+  },
  
 
 }, {
