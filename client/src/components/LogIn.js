@@ -1,6 +1,6 @@
 // LogIn.js
 import React, { useState } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -23,8 +23,9 @@ const LogIn = () => {
           const data = await response.json();
           console.log(data.message);
           // Poți face ceva după autentificare reușită, cum ar fi redirecționarea către o altă pagină
-          window.sessionStorage.setItem("userPrivillege", data.userType);
+          window.sessionStorage.setItem("userPrivillege", data.tipUtilizator);
           window.sessionStorage.setItem("userId", data.id);
+          console.log(data.id);
         } else {
           const errorMessage = await response.text();
           console.error(`Autentificare eșuată: ${errorMessage}`);
@@ -45,9 +46,9 @@ const LogIn = () => {
       <label>Password:</label>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
-      <button onClick={handleLogIn}>Log In</button>
-      {/* <Link to="/SignUp">Creează cont</Link>
-      <br /> */}
+      <Link to="/dashboard"><button onClick={handleLogIn}>Log In</button></Link>
+      <Link to="/SignUp">Creează cont</Link>
+      <br />
       
       
     </div>

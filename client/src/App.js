@@ -24,9 +24,23 @@ const App = () => {
       {/* <AdaugaProiect /> */}
       {/* <ViewProjectsMP /> */}
       {/* < ViewProjectsTST /> */}
-      <AddBug />
+      {/* <AddBug /> */}
       {/* <ViewBugs /> */}
       {/* <Dashboard /> */}
+      <Router>
+      <Routes>
+        <Route index element={<LogIn/>}/>
+        <Route path='/login' element={<LogIn/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/adaugaproiect' element={<AdaugaProiect/>}/>
+        <Route path='/adaugabug' element={<AddBug/>}/>
+        <Route path='/viewbugs' element={<ViewBugs/>}/>
+        <Route path='/viewprojectsMP' element={<ViewProjectsMP/>}/>
+        <Route path='/viewprojectsTST' element={<ViewProjectsTST/>}/>
+      </Routes>
+
+     </Router>
     </div>
   
 

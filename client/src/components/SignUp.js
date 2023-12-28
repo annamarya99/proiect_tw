@@ -1,4 +1,6 @@
 import {useState} from 'react'
+import{Link} from 'react-router-dom'
+
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -19,6 +21,7 @@ const SignUp = () => {
       if (response.ok) {
         console.log('Utilizator înregistrat cu succes!');
         console.log(response);
+
       } else {
         const errorMessage = await response.text();
         console.error(`Eroare la înregistrarea utilizatorului: ${errorMessage}`);
@@ -46,7 +49,9 @@ const SignUp = () => {
         <option value="TST">Tester</option>
       </select>
       <br />
-      <button onClick={handleSignUp}>Înregistrare</button>
+      <Link to="/Login"><button onClick={handleSignUp}>Înregistrare</button></Link>
+      {/* <Link to="/SignUp">Creează cont</Link>
+      <br /> */}
     </div>
   );
 };
