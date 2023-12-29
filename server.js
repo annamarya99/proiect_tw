@@ -181,6 +181,10 @@ app.post('/api/proiecte', async (req, res) => {
       await proiect.setEchipaProiectului(echipaProiectului);
      await proiect.setEchipaTestare(echipaTestare);
 
+
+    //  const userId=window.sessionStorage.getItem("userId");
+    //  await proiect.addEchipaProiectului(userId);
+
     res.status(201).json({ proiect });
   } catch (error) {
     console.error('Eroare la adăugarea proiectului(4):', error);
@@ -211,6 +215,40 @@ app.get('/api/proiecte', async (req, res) => {
     res.status(500).json({ error: 'Eroare la obținerea proiectelor.' });
   }
 });
+
+
+app.post('/api/inscriereTestare', async (req, res) => {
+  try {
+    const { userId, projectId } = req.body;
+    console.log(userId,projectId);
+
+    const project = await Project.findByPk(projectId);
+
+    if (!project) {
+      return res.status(404).json({ message: 'Proiectul nu există.' });
+    }
+
+    // Obțineți lista de utilizatori din echipa de testare a proiectului
+    const usersInProject = await project.getEchipaTestare();
+    console.log(usersInProject);
+    // Verificați dacă utilizatorul este deja înscris în echipa de testare
+    const userAlreadyInProject = usersInProject.some(user => user.id === userId);
+
+    if (!userAlreadyInProject) {
+      // Adăugați utilizatorul în echipa de testare a proiectului
+      await project.addEchipaTestare(userId);
+      res.status(200).json({ message: 'Utilizatorul a fost adăugat cu succes în echipa de testare.' });
+    } else {
+      res.status(409).json({ message: 'Utilizatorul este deja în echipa de testare.' });
+    }
+  } catch (error) {
+    console.error('Eroare la înregistrarea utilizatorului în echipa de testare:', error);
+    res.status(500).json({ error: 'Eroare la înregistrarea utilizatorului în echipa de testare.' });
+  }
+});
+
+
+
 
 // Rută pentru înregistrarea unui bug
 app.post('/api/bugs', async (req, res) => {

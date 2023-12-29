@@ -33,7 +33,7 @@ const ViewBugs = () => {
             <p>Prioritate: {bug.prioritate}</p>
             <p>Descriere: {bug.descriere}</p>
             <p>Link Commit: {bug.linkCommit}</p>
-            <p>Proiect asociat: {bug.Project ? bug.Project.numeProiect : 'N/A'}</p>
+            <p>Proiect asociat: {bug.ProjectId ? bug.numeProiect : 'N/A'}</p>
           </li>
         ))}
       </ul>
