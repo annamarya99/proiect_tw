@@ -9,6 +9,7 @@ const AddBug = () => {
     descriere: '',
     linkCommit: '',
     ProjectId: null,
+    status: 'nerezolvat',
   });
 
   useEffect(() => {

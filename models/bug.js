@@ -24,6 +24,15 @@ const Bug = sequelize.define('Bug', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  alocatUserului: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM('nerezolvat', 'alocat', 'rezolvat'),
+    allowNull: false,
+    defaultValue: 'nerezolvat',
+  },
 }, {
   timestamps: true,
 });

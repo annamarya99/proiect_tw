@@ -296,6 +296,61 @@ app.get('/api/bugs', async (req, res) => {
 });
 
 
+
+// Endpoint pentru alocarea bugului unui utilizator
+app.put('/api/bugs/:bugId/allocate', async (req, res) => {
+  const { bugId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const bug = await Bug.findByPk(bugId);
+    if (!bug) {
+      return res.status(404).json({ message: 'Bug not found' });
+    }
+
+    if (bug.status === 'nerezolvat' && !bug.alocatUserului) {
+      bug.alocatUserului = userId;
+      bug.status = 'alocat';
+      await bug.save();
+      return res.status(200).json({ message: 'Bug allocated for resolution' });
+    }
+
+    return res.status(400).json({ message: 'Bug already allocated or resolved' });
+  } catch (error) {
+    console.error('Error allocating bug:', error);
+    res.status(500).json({ error: 'Error allocating bug' });
+  }
+});
+
+// Endpoint pentru marcarea bugului ca rezolvat și adăugarea link-ului de commit
+app.put('/api/bugs/:bugId/resolve', async (req, res) => {
+  const { bugId } = req.params;
+  const { linkCommit, userId } = req.body;
+  //const userId=window.sessionStorage.getItem("userId");
+  //const {userId}=req.user.id;
+
+  try {
+    const bug = await Bug.findByPk(bugId);
+    if (!bug) {
+      return res.status(404).json({ message: 'Bug not found' });
+    }
+
+    if (bug.status === 'alocat' && bug.alocatUserului === parseInt(userId,10)) {
+      bug.status = 'rezolvat';
+      bug.linkCommit = linkCommit;
+      await bug.save();
+      return res.status(200).json({ message: 'Bug marked as resolved' });
+    }
+
+    return res.status(400).json({ message: 'Bug not allocated or not resolved by you' });
+  } catch (error) {
+    console.error('Error resolving bug:', error);
+    res.status(500).json({ error: 'Error resolving bug' });
+  }
+});
+
+
+
 // Backend routes
 app.get('/api', (req, res) => {
   console.log('Backend is running!');
