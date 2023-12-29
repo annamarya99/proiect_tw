@@ -28,26 +28,10 @@ const ProjectsList = () => {
 
       if (response.ok) {
         console.log('Utilizatorul a fost înscris în proiect cu succes!');
-        // Actualizare lista de proiecte după înregistrare
-        // const updatedProjects = projects.map(project => {
-        //   if (project.id === projectId) {
-        //     return { ...project, UtilizatorInscris: true };
-        //   }
-        //   return project;
-        // });
-        // setProjects(updatedProjects);
-
 
         const updatedProjectResponse = await fetch(`http://localhost:5000/api/proiecte`);
         const updatedProject = await updatedProjectResponse.json();
   
-        // Actualizați lista de proiecte cu proiectul actualizat
-        // const updatedProjects = projects.map(project => {
-        //   if (project.id === projectId) {
-        //     return {updatedProject};
-        //   }
-        //   return project;
-        // });
         setProjects(updatedProject);
 
       } else {
@@ -84,7 +68,7 @@ const ProjectsList = () => {
                     <li key={user.id}>{user.username}</li>
                   ))
                 ) : (
-                  <li key={`no-test-team-${project.id}`}>No users in test team</li>
+                  <li key={`no-test-team-${project.id}`}>Niciun membru in echipa</li>
                 )}
                 </ul>
               </td>
@@ -94,7 +78,7 @@ const ProjectsList = () => {
                     <li key={user.id}>{user.username}</li>
                   ))
                 ) : (
-                  <li key={`no-test-team-${project.id}`}>No users in test team</li>
+                  <li key={`no-test-team-${project.id}`}>Niciun tester</li>
                 )}
               </td>
               <td>

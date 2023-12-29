@@ -7,6 +7,7 @@ import { Link,useNavigate } from 'react-router-dom';
 const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   
 
   const navigate=useNavigate();
@@ -40,6 +41,7 @@ const LogIn = () => {
         } else {
           const errorMessage = await response.text();
           console.error(`Autentificare eșuată: ${errorMessage}`);
+          setError('Nume de utilizator sau parolă incorectă');
         }
       } catch (error) {
         console.error('Eroare la autentificare:', error);
@@ -60,7 +62,7 @@ const LogIn = () => {
       <button onClick={handleLogIn}>Log In</button>
       <Link to="/SignUp">Creează cont</Link>
       <br />
-      
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       
     </div>
   );

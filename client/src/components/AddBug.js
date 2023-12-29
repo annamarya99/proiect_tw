@@ -21,7 +21,11 @@ const AddBug = () => {
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        setProjects(data);
+        // setProjects(data);
+        const uniqueProjects = [...new Set(data.map(project => project.id))]
+        .map(id => data.find(project => project.id === id));
+  
+        setProjects(uniqueProjects);
       } catch (error) {
         console.error('Error loading projects:', error);
       }

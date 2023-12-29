@@ -11,6 +11,11 @@ const SignUp = () => {
   const navigate=useNavigate();
 
   const handleSignUp = async () => {
+
+    if (!username || !email || !password) {
+      console.error('Toate câmpurile trebuie completate!');
+      return; // Întrerupe execuția în cazul în care nu sunt completate toate câmpurile
+    }
     
     try {
       const response = await fetch('http://localhost:5000/api/register', {

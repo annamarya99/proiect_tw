@@ -12,7 +12,31 @@ const ProjectsList = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Data from API:', data);
-        setProjects(data);
+        //setProjects(data);
+
+        const groupedProjects = data.reduce((acc, project) => {
+          const existingProject = acc.find(item => item.id === project.id);
+
+          if (existingProject) {
+            if (!existingProject.MembruEchipaUsername.includes(project.MembruEchipaUsername)) {
+              existingProject.MembruEchipaUsername.push(project.MembruEchipaUsername);
+            }
+            if (!existingProject.TesterProiectUsername.includes(project.TesterProiectUsername)) {
+              existingProject.TesterProiectUsername.push(project.TesterProiectUsername);
+            }
+          } else {
+            acc.push({
+              id: project.id,
+              numeProiect: project.numeProiect,
+              repository: project.repository,
+              MembruEchipaUsername: [project.MembruEchipaUsername],
+              TesterProiectUsername: [project.TesterProiectUsername],
+            });
+          }
+          return acc;
+        }, []);
+
+        setProjects(groupedProjects);
       })
       .catch(error => console.error('Eroare la încărcarea proiectelor:', error));
   }, []);
@@ -36,14 +60,20 @@ const ProjectsList = () => {
               <td>{project.repository}</td>
               <td>
                 <ul>
-                  <li>{project.MembruEchipaUsername}</li>
+                  {/* <li>{project.MembruEchipaUsername}</li> */}
                   {/* Add more users from MembruEchipa if needed */}
+                  {project.MembruEchipaUsername.map((username, index) => (
+                    <li key={index}>{username}</li>
+                  ))}
                 </ul>
               </td>
               <td>
                 <ul>
-                  <li>{project.TesterProiectUsername}</li>
+                  {/* <li>{project.TesterProiectUsername}</li> */}
                   {/* Add more users from TesterProiect if needed */}
+                  {project.TesterProiectUsername.map((username, index) => (
+                    <li key={index}>{username}</li>
+                  ))}
                 </ul>
               </td>
             </tr>

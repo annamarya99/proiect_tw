@@ -163,13 +163,18 @@ app.get('/api/bugs/:userId', async (req, res) => {
 // Endpoint pentru a adăuga un proiect
 app.post('/api/proiecte', async (req, res) => {
   try {
-    const { numeProiect, repository, echipaProiectului, echipaTestare } = req.body;
+    const { numeProiect, repository, echipaProiectului, echipaTestare, userId } = req.body;
+
+    const echipaProiectActualizata = [...echipaProiectului];
+    if (!echipaProiectActualizata.includes(userId)) {
+      echipaProiectActualizata.push(userId);
+    }
 
     // Creează proiectul în baza de date
     const proiect = await Project.create({
       numeProiect,
       repository,
-      echipaProiectului,
+      echipaProiectului:echipaProiectActualizata,
       echipaTestare
 
     });
@@ -178,12 +183,11 @@ app.post('/api/proiecte', async (req, res) => {
     // Poți utiliza asocierile Sequelize aici pentru a gestiona legăturile cu utilizatorii
 
     // Exemplu:
-      await proiect.setEchipaProiectului(echipaProiectului);
+
+  
+      await proiect.setEchipaProiectului(echipaProiectActualizata);
      await proiect.setEchipaTestare(echipaTestare);
 
-
-    //  const userId=window.sessionStorage.getItem("userId");
-    //  await proiect.addEchipaProiectului(userId);
 
     res.status(201).json({ proiect });
   } catch (error) {
@@ -326,8 +330,6 @@ app.put('/api/bugs/:bugId/allocate', async (req, res) => {
 app.put('/api/bugs/:bugId/resolve', async (req, res) => {
   const { bugId } = req.params;
   const { linkCommit, userId } = req.body;
-  //const userId=window.sessionStorage.getItem("userId");
-  //const {userId}=req.user.id;
 
   try {
     const bug = await Bug.findByPk(bugId);
