@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+import './AdaugaProiect.css';
 
 const AdaugaProiect = () => {
   const [numeProiect, setNumeProiect] = useState('');
   const [repository, setRepository] = useState('');
-  const [echipaProiectului, setEchipaProiectului] = useState('');
-  const [echipaTestare, setEchipaTestare] = useState('');
   const [utilizatori, setUtilizatori] = useState([]);
-
-  function getUserId() {
-    return parseInt(window.sessionStorage.getItem("userId"),10);
-   }
+  const [selectedTeamProiect, setSelectedTeamProiect] = useState([]);
+  const [selectedTeamTestare, setSelectedTeamTestare] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    // Încărcați lista de utilizatori din baza de date sau de la server
-    // Puteți face o cerere GET pentru a obține lista de utilizatori
     fetch('http://localhost:5000/api/utilizatori')
       .then(response => response.json())
       .then(data => setUtilizatori(data))
@@ -24,8 +21,7 @@ const AdaugaProiect = () => {
 
   const handleAdaugaProiect = async () => {
     try {
-      const userId=window.sessionStorage.getItem("userId");
-      // Trimiteți datele la server folosind metoda POST
+      const userId = window.sessionStorage.getItem("userId");
       const response = await fetch('http://localhost:5000/api/proiecte', {
         method: 'POST',
         headers: {
@@ -34,17 +30,15 @@ const AdaugaProiect = () => {
         body: JSON.stringify({
           numeProiect,
           repository,
-          echipaProiectului,
-          echipaTestare,
+          echipaProiectului: selectedTeamProiect,
+          echipaTestare: selectedTeamTestare,
           userId
         }),
       });
 
       if (response.ok) {
-        // După trimiterea cu succes, puteți face orice acțiune adițională sau redirecționa către altă pagină
-        console.log('Proiect adăugat cu succes!');
+        setSuccessMessage('Proiect adăugat cu succes!');
       } else {
-        // Tratează cazul în care cererea nu este reușită
         console.error('Eroare la adăugarea proiectului (1):', response.statusText);
       }
     } catch (error) {
@@ -52,24 +46,45 @@ const AdaugaProiect = () => {
     }
   };
 
-  const handleCheckboxChange = (userId, isChecked, teamType) => {
-    if (isChecked) {
-      if (teamType === 'echipaProiectului') {
-        setEchipaProiectului(prevState => [...prevState, userId]);
-      } else if (teamType === 'echipaTestare') {
-        setEchipaTestare(prevState => [...prevState, userId]);
-      }
-    } else {
-      if (teamType === 'echipaProiectului') {
-        setEchipaProiectului(prevState => prevState.filter(id => id !== userId));
-      } else if (teamType === 'echipaTestare') {
-        setEchipaTestare(prevState => prevState.filter(id => id !== userId));
-      }
+  const handleUserSelection = (userId, teamType) => {
+    if (teamType === 'echipaProiectului') {
+      setSelectedTeamProiect(prevState => {
+        if (prevState.includes(userId)) {
+          return prevState.filter(id => id !== userId);
+        } else {
+          return [...prevState, userId];
+        }
+      });
+    } else if (teamType === 'echipaTestare') {
+      setSelectedTeamTestare(prevState => {
+        if (prevState.includes(userId)) {
+          return prevState.filter(id => id !== userId);
+        } else {
+          return [...prevState, userId];
+        }
+      });
     }
   };
 
+  const isUserSelected = (userId, teamType) => {
+    if (teamType === 'echipaProiectului') {
+      return selectedTeamProiect.includes(userId);
+    } else if (teamType === 'echipaTestare') {
+      return selectedTeamTestare.includes(userId);
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    if (successMessage) {
+      window.location.href = '/dashboard';
+    }
+  }, [successMessage]);
 
   return (
+    <div containerpr>
+
+   
     <form>
       <label>
         Nume Proiect:
@@ -81,44 +96,40 @@ const AdaugaProiect = () => {
         <input type="text" value={repository} onChange={(e) => setRepository(e.target.value)} />
       </label>
       <br />
-       <div>
+      <div>
         <label>Echipa Proiectului:</label>
-        {utilizatori.filter((user) => user.tipUtilizator === 'MP').map((utilizator) => (
-          <div key={utilizator.id}>
-            <input
-              type="checkbox"
-              value={utilizator.id}
-              checked={getUserId() === utilizator.id || echipaProiectului.includes(utilizator.id)}
-              onChange={(e) => {
-                if (getUserId() === utilizator.id) {
-                  return; // Blochează capacitatea utilizatorului curent de a se modifica pe sine
-                }
-                handleCheckboxChange(utilizator.id, e.target.checked, 'echipaProiectului');
-              }}
-              disabled={getUserId() === utilizator.id}
-            />
-            <label>{utilizator.username}</label>
-          </div>
-        ))}
+        <Select
+          isMulti
+          value={utilizatori
+            .filter((user) => user.tipUtilizator === 'MP')
+            .filter((user) => selectedTeamProiect.includes(user.id))
+            .map((user) => ({ value: user.id, label: user.username }))}
+          options={utilizatori
+            .filter((user) => user.tipUtilizator === 'MP')
+            .map((user) => ({ value: user.id, label: user.username }))}
+          onChange={(selectedOptions) => setSelectedTeamProiect(selectedOptions.map(option => option.value))}
+        />
       </div>
       <br />
       <div>
         <label>Echipa Testare:</label>
-        {utilizatori.filter((user) => user.tipUtilizator === 'TST').map((utilizator) => (
-          <div key={utilizator.id}>
-            <input
-              type="checkbox"
-              value={utilizator.id}
-              checked={echipaTestare.includes(utilizator.id)}
-              onChange={(e) => handleCheckboxChange(utilizator.id, e.target.checked, 'echipaTestare')}
-            />
-            <label>{utilizator.username}</label>
-          </div>
-        ))}
+        <Select
+          isMulti
+          value={utilizatori
+            .filter((user) => user.tipUtilizator === 'TST')
+            .filter((user) => selectedTeamTestare.includes(user.id))
+            .map((user) => ({ value: user.id, label: user.username }))}
+          options={utilizatori
+            .filter((user) => user.tipUtilizator === 'TST')
+            .map((user) => ({ value: user.id, label: user.username }))}
+          onChange={(selectedOptions) => setSelectedTeamTestare(selectedOptions.map(option => option.value))}
+        />
       </div>
       <br />
       <button type="button" onClick={handleAdaugaProiect}>Adaugă Proiect</button>
+      {successMessage && <p>{successMessage}</p>}
     </form>
+    </div>
   );
 };
 

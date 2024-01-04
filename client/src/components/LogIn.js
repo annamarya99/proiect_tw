@@ -1,8 +1,7 @@
-// LogIn.js
 import React, { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 
-
+import './LogIn.css';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +23,6 @@ const LogIn = () => {
         if (response.ok) {
           const data = await response.json();
           console.log(data.message);
-          // Poți face ceva după autentificare reușită, cum ar fi redirecționarea către o altă pagină
           
           console.log(data);
           window.sessionStorage.setItem("userPrivillege", data.userType);
@@ -49,9 +47,8 @@ const LogIn = () => {
   };
 
   
-
   return (
-    <div>
+    <div className="container">
       <h2>Log In</h2>
       <label>Email:</label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -60,10 +57,10 @@ const LogIn = () => {
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
       <button onClick={handleLogIn}>Log In</button>
-      <Link to="/SignUp">Creează cont</Link>
-      <br />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      
+      <div>      <Link to="/SignUp">Creează cont</Link>
+  <br />      {error && <p className="error-message">{error}</p>}
+</div>
+    
     </div>
   );
 };

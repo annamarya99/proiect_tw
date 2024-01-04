@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './ViewBugs.css'; 
 
 
 const fetchData = async (apiUrl) => {
@@ -66,7 +67,7 @@ const ViewBugs = () => {
         },
         body: JSON.stringify({ userId: id, bugId:bugId }),
       });
-      fetchBugs(); // Reîmprospătați lista de bug-uri după alocare
+      fetchBugs(); 
     } catch (error) {
       console.error('Error allocating bug:', error);
     }
@@ -77,7 +78,7 @@ const ViewBugs = () => {
   //     await axios.put(`http://localhost:5000/bugs/${bugId}/resolve`, {
   //       linkCommit:linkCommit,
   //     });
-  //     fetchBugs(); // Reîmprospătați lista de bug-uri după rezolvare
+  //     fetchBugs(); 
   //   } catch (error) {
   //     console.error('Error resolving bug:', error);
   //   }
@@ -103,7 +104,7 @@ const ViewBugs = () => {
         body: JSON.stringify({ bugId:bugId, linkCommit: newLinkCommit,userId }),
       });
       setBugLink(bugId, newLinkCommit);
-      fetchBugs(); // Reîmprospătați lista de bug-uri după rezolvare
+      fetchBugs(); 
     } catch (error) {
       console.error('Error resolving bug:', error);
     }
@@ -120,13 +121,13 @@ const ViewBugs = () => {
       <h2>Bug-uri</h2>
       <ul>
         {bugs.map(bug => (
-          <li key={bug.id}>
-            <p>Id: {bug.id}</p>
+          <li key={bug.id} id={`bug-${bug.id}`} className="bug-item">
+          <p>Id: {bug.id}</p>
             <p>Nume Bug: {bug.numeBug}</p>
             <p>Severitate: {bug.severitate}</p>
             <p>Prioritate: {bug.prioritate}</p>
             <p>Descriere: {bug.descriere}</p>
-            <p>Link Commit: {bug.linkCommit}</p>
+            <p id='link'>Link Commit: {bug.linkCommit}</p>
             <p>Proiect asociat: {bug.ProjectId ? bug.numeProiect : 'N/A'}</p>
             <p>Status: {bug.status}</p>
 
@@ -156,15 +157,15 @@ const ViewBugs = () => {
                 <input
                   type="text"
                   placeholder="Link Commit"
-                  value={commitLinkInput} // Schimbați aici pentru a folosi variabila locală
-                  onChange={(e) => setCommitLinkInput(e.target.value)} // Actualizați variabila locală
+                  value={commitLinkInput}
+                  onChange={(e) => setCommitLinkInput(e.target.value)} 
                 />
 
                 <button onClick={() => {
-                  resolveBug(bug.id, commitLinkInput); // Transmiteți commitLinkInput către funcția resolveBug
+                  resolveBug(bug.id, commitLinkInput); 
                   setBugs(prevBugs => prevBugs.map(prevBug => {
                     if (prevBug.id === bug.id) {
-                      return { ...prevBug, linkCommit: commitLinkInput }; // Actualizați linkul commitului în memorie
+                      return { ...prevBug, linkCommit: commitLinkInput }; 
                     }
                     return prevBug;
                   }));

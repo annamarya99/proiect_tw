@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './ViewProjectsTST.css';
 
 const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
@@ -85,7 +86,7 @@ const ProjectsList = () => {
                 {!project.EchipaTestare || !project.EchipaTestare.some(user => user.id === parseInt(window.sessionStorage.getItem("userId"), 10)) ? (
                   <button onClick={() => handleInscriereProiect(project.id)}>Vreau să mă înregistrez</button>
                 ) : (
-                  <p>Deja înregistrat</p>
+                  <p id='inre'>Deja înregistrat</p>
                 )}
               </td>
             </tr>

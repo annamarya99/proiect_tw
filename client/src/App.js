@@ -14,11 +14,11 @@ import AddBug from './components/AddBug';
 import ViewBugs from './components/ViewBugs';
 import Dashboard from './components/Dashboard';
 import ViewProjectsTST from './components/ViewProjectsTST';
-
+import Navbar from './components/Navbar';
+import './App.css';
 const App = () => {
   return (
     <div>
-      <h1>Aplicație React</h1>
       {/* <SignUp /> 
       <LogIn /> */}
       {/* <AdaugaProiect /> */}
@@ -27,7 +27,9 @@ const App = () => {
       {/* <AddBug /> */}
       {/* <ViewBugs /> */}
       {/* <Dashboard /> */}
-      <Router>
+      <Router>  
+      <Navbar />  
+    
       <Routes>
         <Route index element={<LogIn/>}/>
         <Route path='/login' element={<LogIn/>}/>

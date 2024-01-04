@@ -6,7 +6,7 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [tipUtilizator, setTipUtilizator] = useState('MP'); // Implicit, începe cu valoarea 'MP'
+  const [tipUtilizator, setTipUtilizator] = useState('MP'); 
 
   const navigate=useNavigate();
 
@@ -14,7 +14,7 @@ const SignUp = () => {
 
     if (!username || !email || !password) {
       console.error('Toate câmpurile trebuie completate!');
-      return; // Întrerupe execuția în cazul în care nu sunt completate toate câmpurile
+      return; 
     }
     
     try {
@@ -40,28 +40,31 @@ const SignUp = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Înregistrare Utilizator</h2>
-      <label>Username:</label>
-      <input type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+return (
+  <div className="container">
+    <h2>Înregistrare Utilizator</h2>
+    <label>Username:</label>
+    <input type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+    <br />
+    <label>Email:</label>
+    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+    <br />
+    <label>Parolă:</label>
+    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+    <br />
+    <label>Tip Utilizator:</label>
+   
+      <div>     <select value={tipUtilizator} onChange={(e) => setTipUtilizator(e.target.value)}>  <option value="MP">Membru de Proiect</option>
+<option value="TST">Tester</option>
+    </select></div>
+      
+    <br />
+    <button onClick={handleSignUp}>Înregistrare</button>
+     <div>    <Link to="/LogIn">Ai deja cont? Autentifică-te!</Link>
+</div>
       <br />
-      <label>Email:</label>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <br />
-      <label>Parolă:</label>
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
-      <label>Tip Utilizator:</label>
-      <select value={tipUtilizator} onChange={(e) => setTipUtilizator(e.target.value)}>
-        <option value="MP">Membru de Proiect</option>
-        <option value="TST">Tester</option>
-      </select>
-      <br />
-      <button onClick={handleSignUp}>Înregistrare</button>
-      {/* <Link to="/SignUp">Creează cont</Link>
-      <br /> */}
-    </div>
-  );
+  </div>
+);
+
 };
-export default SignUp;
+export default SignUp; 

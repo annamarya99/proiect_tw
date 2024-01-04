@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './AddBug.css';
 
 const AddBug = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [bugData, setBugData] = useState({
     numeBug: '',
@@ -13,24 +16,21 @@ const AddBug = () => {
   });
 
   useEffect(() => {
-    //const userId = 8; // You can get the user ID dynamically
-    const userId=window.sessionStorage.getItem("userId");
+    const userId = window.sessionStorage.getItem("userId");
     const apiUrl = `http://localhost:5000/api/userProjects/${userId}`;
-  
+
     const getProjects = async () => {
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        // setProjects(data);
         const uniqueProjects = [...new Set(data.map(project => project.id))]
-        .map(id => data.find(project => project.id === id));
-  
+          .map(id => data.find(project => project.id === id));
         setProjects(uniqueProjects);
       } catch (error) {
         console.error('Error loading projects:', error);
       }
     };
-  
+
     getProjects();
   }, []);
 
@@ -40,17 +40,14 @@ const AddBug = () => {
       ...prevData,
       [name]: value,
     }));
-    //console.log([name]+':'+value);
   };
 
   const handleSelectChange = (e) => {
-    const {value } = e.target;
-    const projectId = parseInt(value, 10);
+    const { value } = e.target;
     setBugData((prevData) => ({
       ...prevData,
       ['ProjectId']: value,
     }));
-    //console.log('ProjectId:'+projectId);
   };
 
   const handleSubmit = async (e) => {
@@ -67,7 +64,7 @@ const AddBug = () => {
 
       if (response.ok) {
         console.log('Bug adăugat cu succes!');
-        // Aici poți face orice acțiune adițională sau redirecționa către altă pagină
+        navigate('/dashboard');
       } else {
         console.error('Eroare la adăugarea bug-ului:', response.statusText);
       }
@@ -77,7 +74,7 @@ const AddBug = () => {
   };
 
   return (
-    <div>
+    <div className="containerbug">
       <h2>Adaugă Bug</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -91,7 +88,7 @@ const AddBug = () => {
         </label>
         <br />
         <label>
-          Prioritate:
+          Prioritate: 
           <input type="text" name="prioritate" value={bugData.prioritate} onChange={handleInputChange} />
         </label>
         <br />
