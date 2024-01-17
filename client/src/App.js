@@ -15,18 +15,11 @@ import ViewBugs from './components/ViewBugs';
 import Dashboard from './components/Dashboard';
 import ViewProjectsTST from './components/ViewProjectsTST';
 import Navbar from './components/Navbar';
-import './App.css';
+//import './App.css';
+import './components/style.css'
 const App = () => {
   return (
     <div>
-      {/* <SignUp /> 
-      <LogIn /> */}
-      {/* <AdaugaProiect /> */}
-      {/* <ViewProjectsMP /> */}
-      {/* < ViewProjectsTST /> */}
-      {/* <AddBug /> */}
-      {/* <ViewBugs /> */}
-      {/* <Dashboard /> */}
       <Router>  
       <Navbar />  
     

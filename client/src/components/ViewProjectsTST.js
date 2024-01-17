@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './ViewProjectsTST.css';
 
 const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
@@ -60,9 +59,9 @@ const ProjectsList = () => {
         <tbody>
           {projects.map(project => (
             <tr key={project.id}>
-              <td>{project.numeProiect}</td>
-              <td>{project.repository}</td>
-              <td>
+              <td data-label="Nume proiect:">{project.numeProiect}</td>
+              <td data-label="Repository:">{project.repository}</td>
+              <td data-label="Echipa:">
                 <ul>
                 {project.EchipaProiectului && project.EchipaProiectului.length > 0 ? (
                   project.EchipaProiectului.map(user => (
@@ -73,7 +72,7 @@ const ProjectsList = () => {
                 )}
                 </ul>
               </td>
-              <td>
+              <td data-label="Testeri:">
                 {project.EchipaTestare && project.EchipaTestare.length > 0 ? (
                   project.EchipaTestare.map(user => (
                     <li key={user.id}>{user.username}</li>
@@ -82,7 +81,7 @@ const ProjectsList = () => {
                   <li key={`no-test-team-${project.id}`}>Niciun tester</li>
                 )}
               </td>
-              <td>
+              <td data-label="Status:">
                 {!project.EchipaTestare || !project.EchipaTestare.some(user => user.id === parseInt(window.sessionStorage.getItem("userId"), 10)) ? (
                   <button onClick={() => handleInscriereProiect(project.id)}>Vreau să mă înregistrez</button>
                 ) : (

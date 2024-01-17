@@ -4,7 +4,6 @@ import { VscDebugConsole } from "react-icons/vsc";
 import { MdOutlinePlaylistAdd } from "react-icons/md";
 import { IoMdList } from "react-icons/io";
 import { Link } from 'react-router-dom';
-import './Dashboard.css';
 
 const Dashboard = () => {
 
@@ -12,7 +11,7 @@ function getUserPrivillege() {
  return window.sessionStorage.getItem("userPrivillege");
 }
 return (
-  <div className="containerd">
+  <div className="container">
     <h2>Dashboard</h2>
     <div className="icon-container">
       {getUserPrivillege() === 'MP' ?

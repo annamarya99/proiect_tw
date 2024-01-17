@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 
-import './LogIn.css';
 
 const LogIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
 
   const navigate=useNavigate();
   const handleLogIn = async () => {
@@ -50,17 +48,20 @@ const LogIn = () => {
   return (
     <div className="container">
       <h2>Log In</h2>
+      <div className='form-container'>
+        <div className='flex-row'>
       <label>Email:</label>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <br />
+      <br /></div>
+      <div className='flex-row'>
       <label>Password:</label>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
+      <br /></div>
       <button onClick={handleLogIn}>Log In</button>
       <div>      <Link to="/SignUp">Creează cont</Link>
-  <br />      {error && <p className="error-message">{error}</p>}
-</div>
-    
+      <br />      {error && <p className="error-message">{error}</p>}
+      </div>
+    </div>
     </div>
   );
 };

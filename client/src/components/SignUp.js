@@ -42,27 +42,32 @@ const SignUp = () => {
 
 return (
   <div className="container">
-    <h2>Înregistrare Utilizator</h2>
+    <h2>Înregistrare utilizator</h2>
+    <div className='form-container'>
+      <div className='flex-row'>
     <label>Username:</label>
     <input type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-    <br />
+    </div>
+    
+    <div className='flex-row'>
     <label>Email:</label>
     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-    <br />
+    </div>
+    <div className='flex-row'>
     <label>Parolă:</label>
     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-    <br />
+    </div>
+    <div className='flex-row'>
     <label>Tip Utilizator:</label>
    
       <div>     <select value={tipUtilizator} onChange={(e) => setTipUtilizator(e.target.value)}>  <option value="MP">Membru de Proiect</option>
 <option value="TST">Tester</option>
-    </select></div>
+    </select></div></div>
       
-    <br />
     <button onClick={handleSignUp}>Înregistrare</button>
      <div>    <Link to="/LogIn">Ai deja cont? Autentifică-te!</Link>
 </div>
-      <br />
+  </div>
   </div>
 );
 

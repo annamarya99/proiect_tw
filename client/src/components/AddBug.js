@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AddBug.css';
 
 const AddBug = () => {
   const navigate = useNavigate();
@@ -74,34 +73,34 @@ const AddBug = () => {
   };
 
   return (
-    <div className="containerbug">
+    <div className="container">
       <h2>Adaugă Bug</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Nume Bug:
           <input type="text" name="numeBug" value={bugData.numeBug} onChange={handleInputChange} />
         </label>
-        <br />
+
         <label>
           Severitate:
           <input type="text" name="severitate" value={bugData.severitate} onChange={handleInputChange} />
         </label>
-        <br />
+
         <label>
           Prioritate: 
           <input type="text" name="prioritate" value={bugData.prioritate} onChange={handleInputChange} />
         </label>
-        <br />
+
         <label>
           Descriere:
           <textarea name="descriere" value={bugData.descriere} onChange={handleInputChange}></textarea>
         </label>
-        <br />
+
         <label>
           Link Commit:
           <input type="text" name="linkCommit" value={bugData.linkCommit} onChange={handleInputChange} />
         </label>
-        <br />
+
         <label>
           Proiect:
           <select name="ProjectId" value={bugData.ProjectId || ''} onChange={handleSelectChange}>
@@ -115,7 +114,7 @@ const AddBug = () => {
             ))}
           </select>
         </label>
-        <br />
+
         <button type="submit">Adaugă Bug</button>
       </form>
     </div>

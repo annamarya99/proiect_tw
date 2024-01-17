@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './ViewBugs.css'; 
 
 
 const fetchData = async (apiUrl) => {
@@ -20,23 +19,6 @@ const ViewBugs = () => {
   const [commitLinkInput, setCommitLinkInput] = useState('');
 
   useEffect(() => {
-    //const userId = 5; //!!HARDCODAT!!
-
-    // const userId=window.sessionStorage.getItem("userId");
-    // const apiUrl = `http://localhost:5000/api/bugs/${userId}`;
-
-  //   const fetchBugs = async () => {
-  //     try {
-  //       const response = await fetch(apiUrl);
-  //       const bugsData = await response.json();
-  //       setBugs(bugsData);
-  //     } catch (error) {
-  //       console.error('Error loading bugs:', error);
-  //     }
-  //   };
-
-  //   fetchBugs();
-  // }, []);
 
   fetchBugs();
 }, []);
@@ -51,9 +33,6 @@ const ViewBugs = () => {
       console.error(error);
     }
   };
-
-
-
 
 
 
@@ -73,16 +52,6 @@ const ViewBugs = () => {
     }
   };
 
-  // const resolveBug = async (bugId, linkCommit) => {
-  //   try {
-  //     await axios.put(`http://localhost:5000/bugs/${bugId}/resolve`, {
-  //       linkCommit:linkCommit,
-  //     });
-  //     fetchBugs(); 
-  //   } catch (error) {
-  //     console.error('Error resolving bug:', error);
-  //   }
-  // };
 
 
   const setBugLink = (bugId, newLinkCommit) => {
@@ -117,19 +86,19 @@ const ViewBugs = () => {
    }
 
   return (
-    <div>
+    <div id='viewbugs'>
       <h2>Bug-uri</h2>
       <ul>
         {bugs.map(bug => (
           <li key={bug.id} id={`bug-${bug.id}`} className="bug-item">
-          <p>Id: {bug.id}</p>
-            <p>Nume Bug: {bug.numeBug}</p>
-            <p>Severitate: {bug.severitate}</p>
-            <p>Prioritate: {bug.prioritate}</p>
-            <p>Descriere: {bug.descriere}</p>
-            <p id='link'>Link Commit: {bug.linkCommit}</p>
-            <p>Proiect asociat: {bug.ProjectId ? bug.numeProiect : 'N/A'}</p>
-            <p>Status: {bug.status}</p>
+          <p><b>Id:</b> {bug.id}</p>
+            <p> <b>Nume Bug:</b> {bug.numeBug}</p>
+            <p> <b>Severitate:</b> {bug.severitate}</p>
+            <p><b>Prioritate:</b> {bug.prioritate}</p>
+            <p><b>Descriere:</b> {bug.descriere}</p>
+            <p id='link'><b>Link Commit:</b> {bug.linkCommit}</p>
+            <p><b>Proiect asociat:</b> {bug.ProjectId ? bug.numeProiect : 'N/A'}</p>
+            <p><b>Status:</b> {bug.status}</p>
 
             {bug.status === 'nerezolvat' && getUserPrivillege()=='MP' && !bug.alocatUserului && (
               <button onClick={() => allocateBug(bug.id)}>Alocă pentru rezolvare</button>
@@ -137,7 +106,7 @@ const ViewBugs = () => {
             {bug.status === 'alocat' && getUserPrivillege() === 'MP' && bug.alocatUserului === parseInt(window.sessionStorage.getItem("userId"),10) && (
               <>
                 {/* <p>Link Commit: {bug.linkCommit || 'N/A'}</p> */}
-                <p>Link commit rezolvare: </p>
+                <p><b>Link commit rezolvare:</b> </p>
                 {/* <input
                   type="text"
                   placeholder="Link Commit"

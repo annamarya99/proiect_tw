@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import './AdaugaProiect.css';
 
 const AdaugaProiect = () => {
   const [numeProiect, setNumeProiect] = useState('');
@@ -75,14 +75,15 @@ const AdaugaProiect = () => {
     return false;
   };
 
-  useEffect(() => {
-    if (successMessage) {
-      window.location.href = '/dashboard';
-    }
-  }, [successMessage]);
+  // useEffect(() => {
+  //   if (successMessage) {
+  //     window.location.href = '/dashboard';
+  //   }
+  // }, [successMessage]);
 
   return (
-    <div containerpr>
+    <div className='container'>
+      <h2>Adauga proiect</h2>
 
    
     <form>
@@ -90,12 +91,12 @@ const AdaugaProiect = () => {
         Nume Proiect:
         <input type="text" value={numeProiect} onChange={(e) => setNumeProiect(e.target.value)} />
       </label>
-      <br />
+
       <label>
         Repository:
         <input type="text" value={repository} onChange={(e) => setRepository(e.target.value)} />
       </label>
-      <br />
+
       <div>
         <label>Echipa Proiectului:</label>
         <Select
@@ -110,7 +111,7 @@ const AdaugaProiect = () => {
           onChange={(selectedOptions) => setSelectedTeamProiect(selectedOptions.map(option => option.value))}
         />
       </div>
-      <br />
+
       <div>
         <label>Echipa Testare:</label>
         <Select
@@ -125,7 +126,7 @@ const AdaugaProiect = () => {
           onChange={(selectedOptions) => setSelectedTeamTestare(selectedOptions.map(option => option.value))}
         />
       </div>
-      <br />
+
       <button type="button" onClick={handleAdaugaProiect}>Adaugă Proiect</button>
       {successMessage && <p>{successMessage}</p>}
     </form>
